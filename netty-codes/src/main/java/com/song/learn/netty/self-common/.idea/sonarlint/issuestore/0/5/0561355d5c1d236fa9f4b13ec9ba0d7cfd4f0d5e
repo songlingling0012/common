@@ -1,0 +1,46 @@
+
+^
+java:S1854ø";Remove this useless assignment to local variable "preHead".(ÇŞâ—ùÿÿÿÿ8‹îÈ½…/
+9
+java:S3626"Remove this redundant jump.(ÉŠ©ƒ8‹îÈ½…/
+t
+java:S3776'"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(¼¸ĞÎşÿÿÿÿ8‹îÈ½…/
+^	java:S125­"<This block of commented-out lines of code should be removed.(ˆ¡Ø¾úÿÿÿÿ8‹îÈ½…/
+X
+java:S1117£"5Rename "n" which hides the field declared at line 75.(ùòË™üÿÿÿÿ8‹îÈ½…/
+u
+java:S3776¤"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(ıŒŒŞşÿÿÿÿ8‹îÈ½…/
+w
+java:S2293ï"YReplace the type specification in this constructor call with the diamond operator ("<>").(”øêè8Ã”»ç…/
+W
+java:S1117z"5Rename "n" which hides the field declared at line 75.(„ûÒİûÿÿÿÿ8‹îÈ½…/
+S
+java:S1117Ã"5Rename "n" which hides the field declared at line 75.(«çà¹8‹îÈ½…/
+V
+java:S1854ı"9Remove this useless assignment to local variable "trees".(›ò®^8‹îÈ½…/
+V	java:S106¢"9Replace this use of System.out or System.err by a logger.(ÿş«Ä8¢Š¾ç…/
+W
+java:S1117("5Rename "n" which hides the field declared at line 75.(å¢ÏÌşÿÿÿÿ8‹îÈ½…/
+{
+java:S1149"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(Úëå8‹îÈ½…/
+W
+java:S11175"5Rename "f" which hides the field declared at line 72.(ŠÅÓüÿÿÿÿ8‹îÈ½…/
+r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(âœ¨“ıÿÿÿÿ8‹îÈ½…/
+[	java:S106¨"9Replace this use of System.out or System.err by a logger.(¸šñÙüÿÿÿÿ8¢Š¾ç…/
+u	java:S127"XRefactor the code in order to not assign to this loop counter from within the loop body.(Ì‚ˆÌ8‹îÈ½…/
+u
+java:S3776ç"RRefactor this method to reduce its Cognitive Complexity from 70 to the 15 allowed.(Ÿã—ûıÿÿÿÿ8‹îÈ½…/
+^
+java:S1854’";Remove this useless assignment to local variable "preNode".(·½çşÿÿÿÿ8‹îÈ½…/
+G
+java:S1481ı"*Remove this unused "trees" local variable.(›ò®^8‹îÈ½…/
+u
+java:S3776ù"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(úíÀÿÿÿÿÿ8‹îÈ½…/
+K
+java:S5413l")Verify that "remove()" is used correctly.(Ø¡‰Œúÿÿÿÿ8‹îÈ½…/
+\
+java:S3518Ø"9Make sure "num" can't be zero before doing this division.(š»¾ƒşÿÿÿÿ8‹îÈ½…/
+U
+java:S1117Á"7Rename "res" which hides the field declared at line 73.(ıœºë8‹îÈ½…/
+u
+java:S3776ó"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(²€ùÿÿÿÿ8‹îÈ½…/

@@ -1,0 +1,14 @@
+
+C
+java:S1148"#Use a logger to log this exception.(îÙ÷Çùÿÿÿÿ8Ÿ®¦Í„/
+R	java:S106"9Replace this use of System.out or System.err by a logger.(€‰Ğ8øé¥Í„/
+C
+java:S1148"#Use a logger to log this exception.(îÙ÷Çùÿÿÿÿ8øé¥Í„/
+X	java:S106"9Replace this use of System.out or System.err by a logger.(¢Ø›ûøÿÿÿÿ8øé¥Í„/
+x
+java:S2095"]Use try-with-resources or close this "AsynchronousServerSocketChannel" in a "finally" clause.(Ä—£ı8Ş´øÌ„/
+C
+java:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8øé¥Í„/
+X	java:S106"9Replace this use of System.out or System.err by a logger.(ç¤ûÿÿÿÿ8øé¥Í„/
+S	java:S106"9Replace this use of System.out or System.err by a logger.(½Ïë8Ÿ®¦Í„/
+S	java:S106"9Replace this use of System.out or System.err by a logger.(ÛÕÿ8øé¥Í„/

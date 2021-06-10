@@ -1,0 +1,10 @@
+
+_
+java:S2095"FUse try-with-resources or close this "Selector" in a "finally" clause.(ŠÞö ùÿÿÿÿ
+j
+java:S2095"QUse try-with-resources or close this "ServerSocketChannel" in a "finally" clause.(ãöŒÎüÿÿÿÿ
+P
+java:S1854"7Remove this useless assignment to local variable "ssc".(æ•Œþþÿÿÿÿ
+L	java:S106"9Replace this use of System.out or System.err by a logger.(ÍØ“þ
+A
+java:S1481"(Remove this unused "ssc" local variable.(æ•Œþþÿÿÿÿ
