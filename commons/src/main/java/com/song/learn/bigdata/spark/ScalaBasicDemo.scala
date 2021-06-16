@@ -5,9 +5,10 @@ package com.song.learn.bigdata.spark
   * @Description:
   * @Date: 2021/6/15 18:00
   */
-object ScalaBasicDemo {
+object ScalaBasicDemo extends App {
 
-  def main(args: Array[String]): Unit = {
+  println("hello=============")
+ /* def main(args: Array[String]): Unit = {
 
     //求平均值
     val d1 =  Array (("bj",28.1), ("sh",28.7), ("gz",32.0), ("sz", 33.1))
@@ -32,5 +33,5 @@ object ScalaBasicDemo {
 
     println(folded+"=====")
 
-  }
+  }*/
 }
