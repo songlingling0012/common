@@ -12,20 +12,24 @@ object SparkDemoTest {
 
   def main(args: Array[String]): Unit = {
 
+    def getData[T](list:List[T]) = {
+       list(list.length/2)
+    }
 
+    implicit def double2Int(f:Double)=f.toInt
 
-
-
+    var i:Int=3.14159
 
     val conf: SparkConf = new SparkConf()
-
     conf.setAppName(this.getClass.getSimpleName).setMaster("local[*]")
 
     val sparkContext: SparkContext = new SparkContext(conf)
 
     val testRDD: RDD[String] = sparkContext.makeRDD(List("a","b","c"))
 
-    val res: Array[String] = testRDD.collect()
+    testRDD.foreach(println)
+
+
 
 
 
