@@ -1,6 +1,5 @@
 package com.song.learn.bigdata.spark
 
-import scala.actors.Actor
 /**
   * @Author: Song_
   * @Description:

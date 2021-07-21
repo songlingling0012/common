@@ -1,9 +1,12 @@
 package com.song.learn.leecode;
 
 import com.song.learn.leecode.bean.ListNode;
+import com.song.learn.leecode.bean.NodeList;
 import com.song.learn.leecode.bean.TreeNode;
 
 import java.util.*;
+
+import com.song.learn.leecode.bean.Node;
 
 
 /**
@@ -169,10 +172,10 @@ public class OfferList {
         TreeNode root = new TreeNode(rootVal);
 
         // 递归构造左子树
-        root.left = buildTreeCore(inOrder, preStart + 1, preStart + leftSize, inOrder, inStart, index - 1);
+        root.left = buildTreeCore(preOrder, preStart + 1, preStart + leftSize, inOrder, inStart, index - 1);
 
         // 递归构造右子树
-        root.right = buildTreeCore(inOrder, preStart + leftSize + 1, preEnd, inOrder, index + 1, inEnd);
+        root.right = buildTreeCore(preOrder, preStart + leftSize + 1, preEnd, inOrder, index + 1, inEnd);
 
         return root;
 
@@ -1066,32 +1069,58 @@ public class OfferList {
      */
     public boolean verifyPostorder(int[] postorder) {
 
+        // 方法2：单调栈
+
+        ArrayDeque<Integer> queue = new ArrayDeque<>();
+
+        int rootVal = Integer.MAX_VALUE;
+
+        for (int i = postorder.length - 1; i >= 0; i--) {
+            if (postorder[i] > rootVal) {
+                return false;
+            }
+            while (!queue.isEmpty() && queue.peek() > postorder[i]) {
+                rootVal = queue.pop();
+            }
+            queue.push(postorder[i]);
+
+        }
+
+        return true;
+
+
+        // 方法1：递归
+        /*
         int len = postorder.length;
 
         if (len < 1) {
             return true;
         }
 
-        int root = postorder[len - 1];
-
-        for (int i = len - 2; i >= 0; i--) {
-
-            int cur = postorder[i];
-
-            if (cur > root) {
-                // 右子树节点
-
-            } else {
-                // 没有右子树
+        return verifyPostOrderCore(postorder, 0, len - 1);*/
+    }
 
 
-            }
+    public static boolean verifyPostOrderCore(int[] subPostOrder, int startIndex, int endIndex) {
 
-
+        if (startIndex >= endIndex) {
+            // 子树只有一个节点，满足条件
+            return true;
         }
 
+        int boundIndex = startIndex;
+        while (subPostOrder[boundIndex] < subPostOrder[endIndex]) {
+            boundIndex++;
+        }
 
-        return false;
+        int lagIndex = boundIndex;
+        while (subPostOrder[boundIndex] > subPostOrder[endIndex]) {
+            boundIndex++;
+        }
+
+        return boundIndex == endIndex && verifyPostOrderCore(subPostOrder, startIndex, lagIndex - 1)
+                && verifyPostOrderCore(subPostOrder, lagIndex, endIndex - 1);
+
     }
 
 
@@ -1140,7 +1169,7 @@ public class OfferList {
             } else if (data[mid] < k) {
                 left = mid + 1;
             } else {
-                if(mid==0 || data[mid-1]<k){
+                if (mid == 0 || data[mid - 1] < k) {
                     return mid;
                 }
             }
@@ -1162,7 +1191,7 @@ public class OfferList {
             } else if (data[mid] < k) {
                 left = mid + 1;
             } else {
-                if(mid==data.length-1 || data[mid+1]!=k){
+                if (mid == data.length - 1 || data[mid + 1] != k) {
                     return mid;
                 }
             }
@@ -1183,7 +1212,7 @@ public class OfferList {
                 right = mid - 1;
             } else if (data[mid] < k) {
                 left = mid + 1;
-            } else if(k==0 || mid==data.length-1 || data[mid-1]<k ){
+            } else if (k == 0 || mid == data.length - 1 || data[mid - 1] < k) {
                 return mid;
             }
 
@@ -1202,14 +1231,14 @@ public class OfferList {
 
             int mid = left + (right - left) / 2;
 
-            if(data[mid] <= k){
-                if(mid==data.length-1 || data[mid+1]>k){
+            if (data[mid] <= k) {
+                if (mid == data.length - 1 || data[mid + 1] > k) {
                     return mid;
-                }else{
-                    left = mid+1;
+                } else {
+                    left = mid + 1;
                 }
-            }else{
-                right = mid-1;
+            } else {
+                right = mid - 1;
             }
         }
 
@@ -1221,6 +1250,7 @@ public class OfferList {
     /**
      * 剑指 Offer 34. 二叉树中和为某一值的路径
      * 输入一棵二叉树和一个整数，打印出二叉树中节点值的和为输入整数的所有路径。从树的根节点开始往下一直到叶节点所经过的节点形成一条路径。
+     *
      * @param root
      * @param target
      * @return
@@ -1230,7 +1260,7 @@ public class OfferList {
 
     public List<List<Integer>> pathSum(TreeNode root, int target) {
 
-        pathSumDFS(root,target);
+        pathSumDFS(root, target);
 
         return pathRes;
     }
@@ -1238,21 +1268,22 @@ public class OfferList {
 
     /**
      * 深度优先遍历
+     *
      * @param node
      * @param target
      */
-    public static void pathSumDFS(TreeNode node,int target){
+    public static void pathSumDFS(TreeNode node, int target) {
 
-        if(node == null){
-            return ;
+        if (node == null) {
+            return;
         }
         pathQueue.add(node.val);
-        target-=node.val;
-        if(target==0 && node.left==null && node.right==null){
+        target -= node.val;
+        if (target == 0 && node.left == null && node.right == null) {
             pathRes.add(new ArrayList<>(pathQueue));
         }
-        pathSumDFS(node.left,target);
-        pathSumDFS(node.right,target);
+        pathSumDFS(node.left, target);
+        pathSumDFS(node.right, target);
 
         pathQueue.removeLast();
     }
@@ -1261,24 +1292,25 @@ public class OfferList {
     /**
      * 剑指 Offer 37. 序列化二叉树
      * 请实现两个函数，分别用来序列化和反序列化二叉树。
-     *
+     * <p>
      * 你需要设计一个算法来实现二叉树的序列化与反序列化。
      * 这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。
+     *
      * @param
      */
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
 
-        return serializePre(root)+","+serializePost(root);
+        return serializePre(root) + "," + serializePost(root);
 
     }
 
 
-    public static String serializePre(TreeNode root){
+    public static String serializePre(TreeNode root) {
 
         StringBuilder builder = new StringBuilder();
 
-        if(root==null){
+        if (root == null) {
             return builder.toString();
         }
 
@@ -1286,23 +1318,23 @@ public class OfferList {
         String left = serializePre(root.left);
         String right = serializePre(root.right);
 
-        return builder.toString()+left+right;
+        return builder.toString() + left + right;
     }
 
 
-    public static String serializePost(TreeNode root){
+    public static String serializePost(TreeNode root) {
 
         StringBuilder builder = new StringBuilder();
 
-        if(root==null){
+        if (root == null) {
             return builder.toString();
         }
 
-        String left = serializePre(root.left);
+        String left = serializePost(root.left);
         builder.append(root.val);
-        String right = serializePre(root.right);
+        String right = serializePost(root.right);
 
-        return left + builder.toString()+ right;
+        return left + builder.toString() + right;
     }
 
     // Decodes your encoded data to tree.
@@ -1312,26 +1344,491 @@ public class OfferList {
         char[] pres = arr[0].toCharArray();
         char[] post = arr[1].toCharArray();
 
-        return deserializeCore(pres,post,0,0);
+        return deserializeCore(pres, post, 0, pres.length - 1, 0, post.length - 1);
     }
 
-    public static TreeNode deserializeCore(char[] preArr,char[] postArr,int preIndex,int postIndex){
+    public static TreeNode deserializeCore(char[] preArr, char[] postArr, int preIndexStart, int preIndexEnd, int postIndexStart, int postIndexEnd) {
 
-        // 先序遍历的第一个节点就是根节点
-        Integer rootVal = Integer.valueOf(String.valueOf(preArr[preIndex]));
-        TreeNode rootNode = new TreeNode(rootVal);
-        while(!rootVal.equals(Integer.valueOf(String.valueOf(postArr[postIndex])))){
-            postIndex++;
+
+        if (preIndexStart > preIndexEnd) {
+            return null;
         }
-        rootNode.left = deserializeCore(preArr,postArr,preIndex++,postIndex-1);
-        rootNode.right = deserializeCore(preArr,postArr,preIndex++,postIndex+1);
+        Integer rootVal = Integer.valueOf(String.valueOf(preArr[preIndexStart]));
+
+        int rootIndex = 0;
+        for (int i = postIndexStart; i <= postIndexEnd; i++) {
+            if (rootVal.equals(Integer.valueOf(String.valueOf(postArr[i])))) {
+                rootIndex = i;
+                break;
+            }
+        }
+
+        int leftCount = rootIndex - postIndexStart;
+        TreeNode rootNode = new TreeNode(rootVal);
+        rootNode.left = deserializeCore(preArr, postArr, preIndexStart + 1, preIndexStart + leftCount, rootIndex - leftCount, rootIndex - 1);
+        rootNode.right = deserializeCore(preArr, postArr, preIndexStart + leftCount + 1, preIndexEnd, rootIndex + 1, postIndexEnd);
         return rootNode;
 
+    }
+
+
+    public Node copyRandomList(Node head) {
+
+        // base case
+        if (head == null) {
+            return null;
+        }
+
+        // 方法2：拼接+拆分
+
+        // 1 复制各节点，构建拼接链表
+        Node cur = head;
+        while (cur != null) {
+            Node tmp = new Node(cur.val);
+            tmp.next = cur.next;
+            cur.next = tmp;
+            cur = tmp.next;
+        }
+        cur = head;
+        // 2. 构建各新链表的random指向
+        while (cur != null) {
+            if (cur.random != null) {
+                cur.next.random = cur.random.next;
+            }
+            cur = cur.next.next;
+        }
+
+        // 3. 拆分列表
+        cur = head.next;
+
+        Node pre = head;
+        Node res = head.next;
+        while (cur.next != null) {
+            pre.next = pre.next.next;
+            cur.next = cur.next.next;
+            pre = pre.next;
+            cur = cur.next;
+        }
+        pre.next = null;
+
+        // 返回新链表头节点
+        return res;
+
+        // 方法1：HashMap
+       /* HashMap<Node, Node> nodeMap = new HashMap<>();
+
+        Node cur = head;
+        while(cur!=null){
+            nodeMap.put(cur,new Node(cur.val));
+            cur = cur.next;
+        }
+
+        cur = head;
+        while(cur!=null){
+            nodeMap.get(cur).next = nodeMap.get(cur.next);
+            nodeMap.get(cur).random = nodeMap.get(cur.random);
+            cur = cur.next;
+        }
+
+        return nodeMap.get(head);*/
+
+
+    }
+
+
+    /**
+     * 剑指 Offer 40. 最小的k个数
+     * 输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
+     *
+     * @param arr
+     * @param k
+     * @return
+     */
+    public int[] getLeastNumbers(int[] arr, int k) {
+
+        PriorityQueue<Integer> queue = new PriorityQueue<>(k, (a, b) -> (b - a));
+
+        for (int i = 0; i < arr.length; i++) {
+            if (queue.size() < k) {
+                queue.add(arr[i]);
+            } else {
+                Integer curMin = queue.peek();
+                if (arr[i] < curMin) {
+                    queue.poll();
+                    queue.offer(arr[i]);
+                }
+            }
+        }
+
+        int[] res = new int[k];
+        for (int i = 0; i < k; i++) {
+            res[i] = queue.poll();
+        }
+
+        return res;
+    }
+
+
+    public int maxSubArray(int[] nums) {
+
+        int res = nums[0];
+
+        for (int i = 1; i < nums.length; i++) {
+            nums[i] += Math.max(nums[i - 1], 0);
+            res = Math.max(res, nums[i]);
+        }
+        return res;
+
+    }
+
+
+    /**
+     * 计算素数个数
+     *
+     * @param n
+     * @return
+     */
+    public int countPrimes(int n) {
+
+        boolean[] isPrim = new boolean[n];
+
+        Arrays.fill(isPrim, true);
+
+        // 不必循环到n次，sqrt(n)已经可以满足条件
+        for (int i = 2; i * i < n; i++) {
+            if (isPrim[i]) {
+                // 如果是素数，那么该数的倍数也是素数
+                // 如果直从 j = i * 2开始遍历，还是会存在冗余计算，直接从 i * i 开始计算
+                for (int j = i * 2; j < n; j += i) {
+                    isPrim[j] = false;
+                }
+            }
+        }
+
+        int count = 0;
+        for (int i = 2; i < n; i++) {
+            if (isPrim[i]) {
+                count++;
+            }
+        }
+        return count;
+
+        /**
+         * 方法1：暴力排查，存在冗余判断
+         */
+        /*int count = 0;
+        for(int i=2;i<n;i++){
+            if(isPrimes(i)){
+                count++;
+            }
+        }
+        return count;*/
+
+    }
+
+    public boolean isPrimes(int num) {
+        for (int i = 0; i < num; i++) {
+            if (num % i == 0) {
+                // 有其他的整除因子
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 你的任务是计算 ab 对 1337 取模，a 是一个正整数，b 是一个非常大的正整数且会以数组形式给出。
+     * 难点：1. 如何处理用数组表示的指数
+     * 2. 如何得到取模之后的结果
+     * 3. 如何高效的进行幂运算
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    static int lastIndex = -2;
+    static int baseNum = 1337;
+
+    static Deque<Integer> powQueue = null;
+
+    public static int superPow(int a, int[] b) {
+
+        if (lastIndex == -2) {
+            lastIndex = b.length - 1;
+        }
+
+        if (lastIndex < 0) {
+            return 1;
+        }
+
+        if (b.length < 1) {
+            return 0;
+        }
+
+
+        int last = b[lastIndex];
+        lastIndex--;
+
+        int part1 = myPow(a, last);
+        int part2 = myPow(superPow(a, b), 10);
+
+        // 幂次方不为空
+        return part1 * part2;
+
+    }
+
+
+    public static int myPow(int nums, int count) {
+
+        if (count == 0) {
+            // 任何数的零次方是1
+            return 1;
+        }
+
+        if (nums == 1) {
+            return 1;
+        }
+
+        // 先对数字本身取余
+        nums %= baseNum;
+
+        if (count % 2 == 1) {
+            // 如果次方数是：奇数
+            return (nums * myPow(nums, count - 1)) % baseNum;
+        } else {
+            // 次方数是偶数
+            int sub = myPow(nums, count / 2);
+            return (sub * sub) % baseNum;
+        }
+
+
+    }
+
+
+    /**
+     * 169. 多数元素
+     * 给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素。
+     * 你可以假设数组是非空的，并且给定的数组总是存在多数元素。
+     * [2,2,1,1,1,2,2] ==> 2
+     * [1,2,3,3,3,2,4]
+     * 如果存在多数元素，说明数组超过一半的元素都是同一重复值
+     *
+     * @param nums
+     * @return
+     */
+    public int majorityElement(int[] nums) {
+
+        int majorCount = nums.length / 2;
+
+        int majorNum = 0;
+
+        //
+
+        for (int i = 0; i < nums.length; i++) {
+
+            //
+
+
+        }
+
+        return 0;
+
+
+    }
+
+
+    /**
+     * 剑指 Offer 36. 二叉搜索树与双向链表
+     * 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的循环双向链表。要求不能创建任何新的节点，只能调整树中节点指针的指向。
+     *
+     * @param root
+     * @return
+     */
+    static NodeList pre, head;
+
+    public NodeList treeToDoublyList(NodeList root) {
+
+        if (root == null) {
+            return null;
+        }
+
+        treeToDoublyListCore(root);
+        head.left = pre;
+        pre.right = head;
+        return head;
+
+
+    }
+
+
+    public static void treeToDoublyListCore(NodeList curNode) {
+
+        if (curNode == null) {
+            // 当前节点是叶子节点，结束遍历
+            return;
+        }
+
+        // 中序遍历：左右根
+        treeToDoublyListCore(curNode.left);
+
+        if (pre != null) {
+            pre.right = curNode;
+        } else {
+            head = curNode;
+        }
+        curNode.left = pre;
+        pre = curNode;
+
+        treeToDoublyListCore(curNode.right);
+
+
+    }
+
+
+    /**
+     * 珂珂喜欢吃香蕉。这里有 N 堆香蕉，第 i 堆中有 piles[i] 根香蕉。警卫已经离开了，将在 H 小时后回来。
+     * 珂珂可以决定她吃香蕉的速度 K （单位：根/小时）。每个小时，她将会选择一堆香蕉，从中吃掉 K 根。如果这堆香蕉少于 K 根，她将吃掉这堆的所有香蕉，然后这一小时内不会再吃更多的香蕉。
+     * 珂珂喜欢慢慢吃，但仍然想在警卫回来前吃掉所有的香蕉。
+     * 返回她可以在 H 小时内吃掉所有香蕉的最小速度 K（K 为整数）。
+     * 将吃香蕉的速度看成二分查找的目标值，那么吃香蕉的时间就是线性变化的。速度和时间是单调函数关系
+     *
+     * @param piles
+     * @param h
+     * @return
+     */
+    public int minEatingSpeed(int[] piles, int h) {
+
+        int left = 0;
+        int right = 1000000000 + 1;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (minEatingSpeedCore(piles, mid) == h) {
+                right = mid;
+            } else if (minEatingSpeedCore(piles, mid) > h) {
+                left = mid + 1;
+            } else if (minEatingSpeedCore(piles, mid) < h) {
+                right = mid;
+            }
+        }
+        return left;
+    }
+
+    /**
+     * 吃香蕉速度是x
+     * f(x)吃香蕉时间是随着x的增加单调递减的
+     *
+     * @param piles
+     * @param x
+     * @return
+     */
+    public static int minEatingSpeedCore(int[] piles, int x) {
+        int hours = 0;
+        for (int i = 0; i < piles.length; i++) {
+            hours += piles[i] / x;
+            if (piles[i] % x > 0) {
+                hours++;
+            }
+        }
+        return hours;
+    }
+
+
+    /**
+     * 1011. 在 D 天内送达包裹的能力
+     * 传送带上的包裹必须在 D 天内从一个港口运送到另一个港口。
+     * <p>
+     * 传送带上的第 i 个包裹的重量为 weights[i]。每一天，我们都会按给出重量的顺序往传送带上装载包裹。我们装载的重量不会超过船的最大运载重量。
+     * <p>
+     * 返回能在 D 天内将传送带上的所有包裹送达的船的最低运载能力。
+     * 运输天数随着运载能力的增加而减少
+     *
+     * @param weights
+     * @param days
+     * @return
+     */
+    public int shipWithinDays(int[] weights, int days) {
+        int left = 0;
+        // 开区间，取不到
+        int right = 1;
+        for (int w : weights) {
+            left = Math.max(left, w);
+            right += w;
+        }
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (shipWithinDaysCore(weights, mid) == days) {
+                right = mid;
+            } else if (shipWithinDaysCore(weights, mid) > days) {
+                left = mid + 1;
+            } else if (shipWithinDaysCore(weights, mid) < days) {
+                right = mid;
+            }
+        }
+        return left;
+    }
+
+
+    public int shipWithinDaysCore(int[] weights, int canPower) {
+        int days = 0;
+        for (int i = 0; i < weights.length; ) {
+            int can = canPower;
+            while (i < weights.length) {
+                if (can < weights[i]) {
+                    break;
+                } else {
+                    can -= weights[i];
+                }
+                i++;
+            }
+            days++;
+        }
+        return days;
+    }
+
+
+    public ListNode reverseList(ListNode head) {
+
+
+        ListNode preNode = null;
+
+        ListNode curNode = head ;
+
+        while(curNode !=null){
+
+            ListNode nextNode = curNode.next;
+
+            curNode.next = preNode;
+
+            preNode = curNode;
+
+            curNode = nextNode;
+
+        }
+
+        return preNode;
 
     }
 
 
     public static void main(String[] args) {
+
+        System.out.println(superPow(2, new int[]{4, 3}));
+
+        System.exit(0);
+
+        Vector<Integer> vec = new Vector<>(10);
+
+        vec.add(1);
+
+        vec.remove(1);
+
+        LinkedList<Integer> list = new LinkedList<>();
+        list.addLast(1);
+
+        ArrayList<Integer> arrList = new ArrayList<>();
+        arrList.add(1);
 
 
         System.out.println(Integer.valueOf("01233"));
@@ -1339,7 +1836,7 @@ public class OfferList {
 
         System.exit(0);
 
-        System.out.println(binarySearchLastEqual(new int[]{1, 3, 4, 6, 7,7,7, 8, 9, 12}, 7));
+        System.out.println(binarySearchLastEqual(new int[]{1, 3, 4, 6, 7, 7, 7, 8, 9, 12}, 7));
 
 
         System.exit(0);
